@@ -1,7 +1,7 @@
 class Solution {
 public:
     int addDigits(int num) {
-        
+        //First question
         while(num>9){
         int ans =0,rem;
         while(num!= 0){
