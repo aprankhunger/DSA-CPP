@@ -12,10 +12,6 @@ public:
             ans = ans*10+rem;
 
         }
-        if(x==ans)
-        return 1;
-        else
-        return 0;
-        
+        return ans==x;
     }
 };
