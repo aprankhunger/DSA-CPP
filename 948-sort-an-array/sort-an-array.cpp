@@ -1,35 +1,35 @@
 class Solution {
 public:
     vector<int> sortArray(vector<int>& nums) {
-        mergeSort(nums, 0, nums.size() - 1);
+        int n = nums.size();
+        
+        // Build max heap
+        for (int i = n / 2 - 1; i >= 0; i--)
+            heapify(nums, n, i);
+        
+        // Extract elements one by one
+        for (int i = n - 1; i > 0; i--) {
+            swap(nums[0], nums[i]);  // Move current root to end
+            heapify(nums, i, 0);     // Heapify reduced heap
+        }
+
         return nums;
     }
 
-    void mergeSort(vector<int>& nums, int left, int right) {
-        if (left >= right) return;
-        int mid = left + (right - left) / 2;
-        mergeSort(nums, left, mid);
-        mergeSort(nums, mid + 1, right);
-        merge(nums, left, mid, right);
-    }
+    void heapify(vector<int>& nums, int n, int i) {
+        int largest = i;
+        int left = 2 * i + 1;
+        int right = 2 * i + 2;
 
-    void merge(vector<int>& nums, int left, int mid, int right) {
-        vector<int> temp;
-        int i = left, j = mid + 1;
+        if (left < n && nums[left] > nums[largest])
+            largest = left;
 
-        while (i <= mid && j <= right) {
-            if (nums[i] <= nums[j])
-                temp.push_back(nums[i++]);
-            else
-                temp.push_back(nums[j++]);
+        if (right < n && nums[right] > nums[largest])
+            largest = right;
+
+        if (largest != i) {
+            swap(nums[i], nums[largest]);
+            heapify(nums, n, largest);
         }
-
-        while (i <= mid)
-            temp.push_back(nums[i++]);
-        while (j <= right)
-            temp.push_back(nums[j++]);
-
-        for (int k = left; k <= right; ++k)
-            nums[k] = temp[k - left];
     }
 };
